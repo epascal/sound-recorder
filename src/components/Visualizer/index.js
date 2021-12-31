@@ -2,10 +2,11 @@ import { useEffect, useRef } from 'react';
 import styles from './style.css'
 import PropTypes from 'prop-types';
 
-const Visualizer = ({stream, barColor = [0,0,0]}) => {
+const Visualizer = ({stream, barColor = [0,0,0], isRecording}) => {
     const canvasRef = useRef()
     let canvas, audioCtx, canvasCtx
     let analyser, dataArray, bufferLength, previousTimeStamp
+    const recording = useRef(isRecording);
     
     useEffect(() => {
         // https://dmitripavlutin.com/react-useref-guide/
@@ -17,6 +18,10 @@ const Visualizer = ({stream, barColor = [0,0,0]}) => {
         window.onresize();
         visualize(stream)
     }, [])
+
+    useEffect(() => {
+        recording.current = isRecording;
+    }, [isRecording])
 
     /**
      * Renders a visual that shows the microphone is receiving input
@@ -61,7 +66,7 @@ const Visualizer = ({stream, barColor = [0,0,0]}) => {
      * @param {float} timestamp 
      */
     const draw = (timestamp) => {
-        if( previousTimeStamp !== timestamp ) {
+        if( previousTimeStamp !== timestamp && recording.current) {
             const WIDTH = canvas.width
             const HEIGHT = canvas.height
         
