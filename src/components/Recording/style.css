@@ -30,7 +30,7 @@ article button.editName {
 }
 
 .vanish {
-  animation: vanish 1s 1;
+  animation: vanish 0.3s 1;
 }
 
 @keyframes vanish {

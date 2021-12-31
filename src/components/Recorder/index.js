@@ -38,8 +38,8 @@ const Recorder = ({stream}) => {
 
     const deleteRecording = (e) => {
         let id = e.target.parentNode.attributes.id.value
-        let deleteRecording = window.confirm('Are you sure you want to delete this recording?')
-        if (deleteRecording === true) {
+        // let deleteRecording = window.confirm('Are you sure you want to delete this recording?')
+        // if (deleteRecording === true) {
             let newRecordings = recordings.filter((item) => {
                 if (id !== item.id) {
                     return true
@@ -49,8 +49,8 @@ const Recorder = ({stream}) => {
             e.target.parentNode.classList.add('vanish')
             setTimeout(() => {
                 setRecordings([...newRecordings])
-            }, 900)
-        }
+            }, 290)
+        // }
     }
 
     const renderAudio = () => {
