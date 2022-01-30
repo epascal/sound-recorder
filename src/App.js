@@ -3,12 +3,21 @@ import './App.css';
 import { useEffect, useState, useMemo } from 'react';
 
 function App() {
-  const constraints = useMemo(() => { return {audio: true} }, [])
+  const constraints = useMemo(() => {
+    return {
+      audio: {
+        channelCount: 1,
+        echoCancellation: false,
+        noiseSuppression: false,
+        autoGainControl: false,
+      }
+    }
+  }, [])
   const [stream, setStream] = useState(null)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    if ( stream ) {
+    if (stream) {
       return
     }
 
@@ -47,22 +56,22 @@ function App() {
   }, [constraints, stream, error])
 
   const recoderRenderer = () => {
-    if( stream === null ) {
+    if (stream === null) {
       return (<button className="record-play">Loading…</button>)
     }
     return (
       <Recorder stream={stream} />
     )
   }
-  
+
   return (
     <>
-    <header>
-      <h1>Sound Recorder</h1>
-    </header>
-    <main>
-      {recoderRenderer()}
-    </main>
+      <header>
+        <h1>Sound Recorder</h1>
+      </header>
+      <main>
+        {recoderRenderer()}
+      </main>
     </>
   );
 }
