@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import styles from './style.css'
 import PropTypes from 'prop-types';
 
 const Visualizer = ({stream, barColor = [0,0,0], isRecording}) => {

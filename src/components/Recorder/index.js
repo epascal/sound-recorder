@@ -1,11 +1,11 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import Recording from '../Recording'
 import Visualizer from '../Visualizer'
 import './style.css'
 import useMediaRecorder from "../../hooks/useMediaRecorder";
 
-const Recorder = ({stream}) => {
+const Recorder = ({stream, volume}) => {
     const { recorder, recordings, setRecordings, isRecording } = useMediaRecorder(stream);
 
     const defaultRecordClass = 'record-play'
@@ -20,7 +20,7 @@ const Recorder = ({stream}) => {
         }
     }
 
-    const editRecordingName = (e) => {
+    const editRecordingName = useCallback((e) => {
         let id = e.target.parentNode.parentNode.attributes.id.value
         let newRecordings = [...recordings]
         let targetItem = recordings.filter((item) => {
@@ -34,9 +34,9 @@ const Recorder = ({stream}) => {
         targetItem[0].name = newName
         newRecordings.splice(index, 1, targetItem[0])
         setRecordings(newRecordings)
-    }
+    },[recordings, setRecordings]);
 
-    const deleteRecording = (e) => {
+    const deleteRecording = useCallback((e) => {
         let id = e.target.parentNode.attributes.id.value
         // let deleteRecording = window.confirm('Are you sure you want to delete this recording?')
         // if (deleteRecording === true) {
@@ -51,13 +51,14 @@ const Recorder = ({stream}) => {
                 setRecordings([...newRecordings])
             }, 290)
         // }
-    }
+    },[recordings, setRecordings]);
 
-    const renderAudio = () => {
+    const renderAudio = useCallback(() => {
         let audios = recordings.map((recording, index) => {
             return (
                 <Recording 
                     stream={recording.stream} 
+                    volume={volume}
                     key={recording.id} 
                     name={recording.name} 
                     id={recording.id} 
@@ -68,7 +69,7 @@ const Recorder = ({stream}) => {
         
         return audios
 
-    }
+    },[deleteRecording, editRecordingName, recordings, volume]);
 
     return (
         <>

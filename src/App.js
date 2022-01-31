@@ -1,6 +1,6 @@
 import Recorder from './components/Recorder'
 import './App.css';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 
 function App() {
   const constraints = useMemo(() => {
@@ -9,12 +9,13 @@ function App() {
         channelCount: 1,
         echoCancellation: false,
         noiseSuppression: false,
-        autoGainControl: false,
+        autoGainControl: false
       }
     }
   }, [])
-  const [stream, setStream] = useState(null)
-  const [error, setError] = useState(null)
+  const [stream, setStream] = useState(null);
+  const [error, setError] = useState(null);
+  // const [volume, setVolume] = useState(50);
 
   useEffect(() => {
     if (stream) {
@@ -55,14 +56,16 @@ function App() {
     return cancel;
   }, [constraints, stream, error])
 
-  const recoderRenderer = () => {
+  const recoderRenderer = useCallback(() => {
     if (stream === null) {
       return (<button className="record-play">Loading…</button>)
     }
     return (
-      <Recorder stream={stream} />
+      // <div className="commands"><Recorder stream={stream} volume={volume}></Recorder><input type="range" min="0" max="100" value={volume} onChange={
+      //   e => setVolume(e.target.value)
+        <Recorder stream={stream} ></Recorder>
     )
-  }
+  },[stream]);
 
   return (
     <>

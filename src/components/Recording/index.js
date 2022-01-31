@@ -2,8 +2,7 @@ import PropTypes from 'prop-types'
 import './style.css'
 
 
-const Recording = ({ stream, name, onDeleteHandler, onEditNameHandler, id }) => {
-
+const Recording = ({ stream, name, onDeleteHandler, onEditNameHandler, id, volume }) => {
     const deleteRecording = (e) => {
         onDeleteHandler(e)
     }
